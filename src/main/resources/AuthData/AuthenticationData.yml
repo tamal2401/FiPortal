@@ -1,0 +1,23 @@
+userauthdata:
+  roles:
+    - admin
+    - child
+  userrolesmapping:
+    - username: tamal
+      pwd: abc123
+      mailId: tamal.d@deloitte.com
+      firstName: Tamal
+      lastName: Das
+      role: admin
+    - username: pandu
+      pwd: abc123
+      mailId: pandu.b@deloitte.com
+      firstName: Pandu
+      lastName: B
+      role: child
+    - username: Sucheta
+      pwd: abc123
+      mailId: sucheta.b@deloitte.com
+      firstName: su
+      lastName: B
+      role: admin

@@ -1,0 +1,25 @@
+<html ng-app="myApp">
+<head>
+<meta charset="utf-8">
+<link href="css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="externalJs/jquery.min.js"></script>
+<script src="externalJs/js/bootstrap.min.js"></script>
+<script src="externalJs/angular.js"></script>
+<script src="externalJs/angular-ui-router.min.js"></script>
+
+<script src="JS/app.js"></script>
+<script src="JS/loginController.js"></script>
+<script src="JS/loginService.js"></script>
+<script src="JS/homeController.js"></script>
+<script src="JS/childController.js"></script>
+
+</head>
+<body>
+	<div>
+		<div></div>
+		<div ng-show="login" ng-include="'pages/home.html'"></div>
+		<div ui-view></div>
+	</div>
+</body>
+</html>
