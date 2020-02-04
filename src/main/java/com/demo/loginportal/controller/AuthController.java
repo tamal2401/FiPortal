@@ -1,6 +1,7 @@
 package com.demo.loginportal.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -82,6 +83,14 @@ public class AuthController extends AbstractControllerUtil {
 		}
 		return "New rule created";
 	}
+	
+	@CrossOrigin
+	@GetMapping(value = "/getrules", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public List<DqRuleMOdel> getAllRules(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		SessionUserModel sessionUser = validateSsession(request, response);
+		List<DqRuleMOdel> rules = dqPersistenceService.getRules();
+		return rules;
+	}
 
 	private DqRuleMOdel populateDqModel(RuleRequestModel rModel, DqRuleMOdel model) {
 		model.setObjName(rModel.getObjName())
@@ -97,7 +106,7 @@ public class AuthController extends AbstractControllerUtil {
 		return model;
 	}
 
-	private SessionUserModel validateSsession(HttpServletRequest request) throws Exception {
+	private SessionUserModel validateSsession(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		// todo SID validation
 		SessionUserModel activeUser = new SessionUserModel();
@@ -108,6 +117,7 @@ public class AuthController extends AbstractControllerUtil {
 		if (null == activeUser.getUserName() || StringUtils.isBlank(activeUser.getUserName())) {
 			throw new Exception("Invalid User");
 		}
+		response.addHeader("sid", sid);
 		return activeUser;
 	}
 }

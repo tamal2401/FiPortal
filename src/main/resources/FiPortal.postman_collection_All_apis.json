@@ -19,7 +19,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"userId\" : \"tamal\",\n\t\"pwd\" : \"abc123\"\n}",
+					"raw": "{\n\t\"userId\" : \"sucheta\",\n\t\"pwd\" : \"abc123\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -50,7 +50,7 @@
 				"header": [
 					{
 						"key": "sid",
-						"value": "d99d20ba-c382-4689-9688-bf660a748c52",
+						"value": "8521c8a8-9d03-4d7d-b1e6-602f547947c4",
 						"type": "text"
 					},
 					{
@@ -96,7 +96,7 @@
 					},
 					{
 						"key": "sid",
-						"value": "cfc4c6cc-9a5f-4f40-94b5-e67d8af31266",
+						"value": "04c3f6d3-f5be-4f35-a062-6970205817ad",
 						"type": "text"
 					}
 				],
@@ -118,6 +118,49 @@
 					"port": "8060",
 					"path": [
 						"storerule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/getrules",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "sid",
+						"value": "04c3f6d3-f5be-4f35-a062-6970205817ad",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/getrules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"getrules"
 					]
 				}
 			},
