@@ -3,14 +3,17 @@ package com.demo.loginportal.service;
 import java.util.List;
 
 import com.demo.loginportal.model.dqrule.DqRuleMOdel;
+import com.demo.loginportal.model.dqrule.RuleRequestModel;
 
 public interface IdqPersistanceService {
 
-	DqRuleMOdel storeData(DqRuleMOdel model);
+	DqRuleMOdel storeData(DqRuleMOdel model, String createdBy);
 	
 	DqRuleMOdel findData(Long id);
 	
-	DqRuleMOdel updateData(DqRuleMOdel model);
-
 	List<DqRuleMOdel> getRules();
+
+	DqRuleMOdel updateRule(DqRuleMOdel ruleRequestModel, String updateBy);
+
+	void removeRule(DqRuleMOdel ruleRequestModel);
 }

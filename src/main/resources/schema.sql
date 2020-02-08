@@ -19,5 +19,8 @@ CREATE TABLE mdm_dqrule(
 	hive_fld_nm VARCHAR(50) NOT NULL,
 	rule_name TEXT,
 	active_flag char(1),
-	created_on TIMESTAMP NOT NULL
+	created_by VARCHAR(50) NOT NULL,
+	created_on TIMESTAMP NOT NULL,
+	updated_by VARCHAR(50) NOT NULL,
+	last_updated TIMESTAMP NOT NULL
 );

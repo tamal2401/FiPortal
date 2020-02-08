@@ -1,19 +1,27 @@
 package com.demo.loginportal.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.demo.loginportal.enumss.ActiveFlagEnum;
+import com.demo.loginportal.exception.InvalidSessionException;
 import com.demo.loginportal.exception.UserNotRegisteredException;
 import com.demo.loginportal.model.UserAuth;
 import com.demo.loginportal.model.auth.User;
 import com.demo.loginportal.model.auth.UserAuthData;
+import com.demo.loginportal.model.dqrule.DqRuleMOdel;
+import com.demo.loginportal.model.dqrule.RuleRequestModel;
+import com.demo.loginportal.model.session.SessionUserModel;
 import com.demo.loginportal.service.DqDataPersistanceService;
 import com.demo.loginportal.service.IAuthService;
 import com.google.gson.Gson;
@@ -34,7 +42,7 @@ public class AbstractControllerUtil {
 	@Autowired
 	DqDataPersistanceService dqPersistenceService;
 
-	protected void storeSession(String sid, User currUser) {
+	protected void storeSession(String sid, User currUser) throws InvalidSessionException {
 		authService.storeSession(sid, currUser);
 	}
 
@@ -85,5 +93,34 @@ public class AbstractControllerUtil {
 		} else {
 			throw new Exception("plase provide correct password");
 		}
+	}
+	
+	protected DqRuleMOdel populateDqModel(RuleRequestModel rModel, DqRuleMOdel model) {
+		model.setObjName(rModel.getObjName())
+				.setEntityName(rModel.getEntityName())
+				.setHiveFilename(rModel.gethFilename())
+				.setRuleName(rModel.getrName())
+				.setTimeStamp(new Date());
+		if ("Yes".equalsIgnoreCase(rModel.getaFlag())) {
+			model.setActiveFlag(ActiveFlagEnum.Y);
+		} else {
+			model.setActiveFlag(ActiveFlagEnum.N);
+		}
+		return model;
+	}
+
+	protected SessionUserModel validateSsession(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		// todo SID validation
+		SessionUserModel activeUser = new SessionUserModel();
+		String sid = request.getHeader("sid");
+		if (null != sid && !StringUtils.containsWhitespace(sid)) {
+			activeUser = authService.getSessionUser(sid);
+		}
+		if (null == activeUser.getUserName() || StringUtils.isBlank(activeUser.getUserName())) {
+			throw new Exception("Invalid User");
+		}
+		response.addHeader("sid", sid);
+		return activeUser;
 	}
 }

@@ -67,17 +67,17 @@ public class AuthController extends AbstractControllerUtil {
 	}
 
 	@CrossOrigin
-	@PostMapping(value = "/storerule", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String persistDqRuleObject(@RequestBody RuleRequestModel ruleRequestModel, HttpServletRequest request)
+	@PostMapping(value = "/rule/storerule", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public String persistDqRuleObject(@RequestBody RuleRequestModel ruleModel, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
 		DqRuleMOdel dqRuleModel = new DqRuleMOdel();
-		SessionUserModel sessionUser = validateSsession(request);
-		if (PropertyUtils.isNotNull(ruleRequestModel)) {
-			populateDqModel(ruleRequestModel, dqRuleModel);
+		SessionUserModel sessionUser = validateSsession(request, response);
+		if (PropertyUtils.isNotNull(ruleModel)) {
+			populateDqModel(ruleModel, dqRuleModel);
 		}
 		System.out.println(dqRuleModel);
-		dqRuleModel = dqPersistenceService.storeData(dqRuleModel);
+		dqRuleModel = dqPersistenceService.storeData(dqRuleModel, sessionUser.getUserName());
 		if(null==dqRuleModel.getRuleId()) {
 			throw new Exception("db error occured");
 		}
@@ -85,39 +85,28 @@ public class AuthController extends AbstractControllerUtil {
 	}
 	
 	@CrossOrigin
-	@GetMapping(value = "/getrules", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value = "/rule/getrules", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<DqRuleMOdel> getAllRules(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		SessionUserModel sessionUser = validateSsession(request, response);
 		List<DqRuleMOdel> rules = dqPersistenceService.getRules();
 		return rules;
 	}
-
-	private DqRuleMOdel populateDqModel(RuleRequestModel rModel, DqRuleMOdel model) {
-		model.setObjName(rModel.getObjName())
-				.setEntityName(rModel.getEntityName())
-				.setHiveFilename(rModel.gethFilename())
-				.setRuleName(rModel.getrName())
-				.setTimeStamp(new Date());
-		if ("Yes".equalsIgnoreCase(rModel.getaFlag())) {
-			model.setActiveFlag(ActiveFlagEnum.Y);
-		} else {
-			model.setActiveFlag(ActiveFlagEnum.N);
-		}
-		return model;
+	
+	@CrossOrigin
+	@PostMapping(value = "/rule/updaterule", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public DqRuleMOdel updateRule(@RequestBody DqRuleMOdel ruleRequestModel, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		SessionUserModel sessionUser = validateSsession(request, response);
+		DqRuleMOdel rule = dqPersistenceService.updateRule(ruleRequestModel, sessionUser.getUserName());
+		return rule;
+	}
+	
+	@CrossOrigin
+	@PostMapping(value = "/rule/deleterule", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public DqRuleMOdel deleteRule(@RequestBody DqRuleMOdel ruleRequestModel, HttpServletRequest request, HttpServletResponse response) throws Exception{
+		SessionUserModel sessionUser = validateSsession(request, response);
+		dqPersistenceService.removeRule(ruleRequestModel);
+		return null;
 	}
 
-	private SessionUserModel validateSsession(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		// todo SID validation
-		SessionUserModel activeUser = new SessionUserModel();
-		String sid = request.getHeader("sid");
-		if (null != sid && !StringUtils.containsWhitespace(sid)) {
-			activeUser = authService.getSessionUser(sid);
-		}
-		if (null == activeUser.getUserName() || StringUtils.isBlank(activeUser.getUserName())) {
-			throw new Exception("Invalid User");
-		}
-		response.addHeader("sid", sid);
-		return activeUser;
-	}
+	
 }

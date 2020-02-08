@@ -40,11 +40,22 @@ public class DqRuleMOdel {
 	@Column(name = "active_flag")
 	@Enumerated(EnumType.STRING)
 	private ActiveFlagEnum activeFlag;
+	
+	@Column(name = "created_by")
+	private String createdBy="";
 
 	@Basic
 	@Column(name = "creation_date")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timeStamp;
+	
+	@Column(name = "updated_by")
+	private String updatedBy="";
+	
+	@Basic
+	@Column(name = "last_updated")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date lastUpdated;
 
 	public Long getRuleId() {
 		return ruleId;
@@ -108,11 +119,37 @@ public class DqRuleMOdel {
 		this.timeStamp = timeStamp;
 		return this;
 	}
+	
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getUpdatedBy() {
+		return updatedBy;
+	}
+
+	public void setUpdatedBy(String updatedBy) {
+		this.updatedBy = updatedBy;
+	}
+
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
 
 	@Override
 	public String toString() {
 		return "DqRuleMOdel [ruleId=" + ruleId + ", objName=" + objName + ", entityName=" + entityName
 				+ ", hiveFilename=" + hiveFilename + ", ruleName=" + ruleName + ", activeFlag=" + activeFlag
-				+ ", timeStamp=" + timeStamp + "]";
+				+ ", createdBy=" + createdBy + ", timeStamp=" + timeStamp + ", updatedBy=" + updatedBy
+				+ ", lastUpdated=" + lastUpdated + "]";
 	}
+	
 }

@@ -6,6 +6,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.demo.loginportal.exception.InvalidSessionException;
 import com.demo.loginportal.model.auth.User;
 import com.demo.loginportal.model.session.SessionUserModel;
 import com.demo.loginportal.repository.SessionRepository;
@@ -17,8 +18,8 @@ public class AuthenticationService implements IAuthService{
 	private SessionRepository repo;
 
 	@Override
-	@Transactional(rollbackOn = Throwable.class)
-	public void storeSession(String sid, User currUser) {
+	@Transactional(rollbackOn = InvalidSessionException.class)
+	public void storeSession(String sid, User currUser) throws InvalidSessionException {
 
 		SessionUserModel user = new SessionUserModel(sid, currUser);
 		System.out.println(user);
@@ -28,14 +29,14 @@ public class AuthenticationService implements IAuthService{
 				System.out.println("session persisted for user ::"+entity.getUserName());
 			}
 		} catch (Exception e) {
-			System.out.println("Error occured while persisting the data :: " + e.getMessage());
-			throw new RuntimeException("User not saved ::"+currUser.getUserName());
+			System.out.println("Error occured while persisting the session :: " + e.getMessage());
+			throw new InvalidSessionException("User not saved ::"+currUser.getUserName());
 		}
 	}
 
 	@Override
-	@Transactional(rollbackOn = Throwable.class)
-	public Long invalidateSession(String sid) {
+	@Transactional(rollbackOn = InvalidSessionException.class)
+	public Long invalidateSession(String sid) throws InvalidSessionException {
 		long deletedCount = 0;
 		try {
 			deletedCount = repo.deleteBySid(sid);
@@ -45,18 +46,21 @@ public class AuthenticationService implements IAuthService{
 				System.out.println(deletedCount + ":: users deleted");
 			}
 		}catch(Exception e) {
-			System.out.println("Exception occured while deleting user");
+			System.out.println("error occured while deleting user for session id ".concat(sid).concat(e.getMessage()));
+			throw new InvalidSessionException("Exception occured while deleting user");
 		}
 		return deletedCount;
 	}
 
 	@Override
-	public SessionUserModel getSessionUser(String sid) {
+	@Transactional(rollbackOn = InvalidSessionException.class)
+	public SessionUserModel getSessionUser(String sid) throws InvalidSessionException {
 		SessionUserModel model = null;
 		try {
 			 model = repo.findBySid(sid);
 		}catch(Exception e) {
-			System.out.println("Exception occured while getting existing user :: "+e.getMessage());
+			System.out.println("Exception occured while getting existing user :: ".concat(sid).concat(e.getMessage()));
+			throw new InvalidSessionException("Exception occured while getting existing user");
 		}
 		if(null!=model) {
 			return model;

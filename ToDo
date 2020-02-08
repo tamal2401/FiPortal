@@ -1,0 +1,9 @@
+											::  Area of Improvements ::
+											
+1. Move session handling to Filter
+
+2. Add Cacheing to store session Id for less latency
+
+3. Add multiple datasource to support 2 different db ( H2 and PostgreSql )
+
+4. Add scheduler job to delete all redundent session ( more than 24 hours )
