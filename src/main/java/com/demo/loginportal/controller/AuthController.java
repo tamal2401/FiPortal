@@ -1,7 +1,10 @@
 package com.demo.loginportal.controller;
 
-import java.util.Date;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.loginportal.controller.utils.PropertyUtils;
-import com.demo.loginportal.enumss.ActiveFlagEnum;
 import com.demo.loginportal.model.UserAuth;
 import com.demo.loginportal.model.auth.User;
 import com.demo.loginportal.model.dqrule.DqRuleMOdel;
@@ -32,7 +34,7 @@ public class AuthController extends AbstractControllerUtil {
 	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
 	@CrossOrigin
-	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/authentication/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public User userLogin(@RequestBody UserAuth modelAuth, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
@@ -70,7 +72,7 @@ public class AuthController extends AbstractControllerUtil {
 	@PostMapping(value = "/rule/storerule", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public String persistDqRuleObject(@RequestBody RuleRequestModel ruleModel, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		
+
 		DqRuleMOdel dqRuleModel = new DqRuleMOdel();
 		SessionUserModel sessionUser = validateSsession(request, response);
 		if (PropertyUtils.isNotNull(ruleModel)) {
@@ -83,7 +85,7 @@ public class AuthController extends AbstractControllerUtil {
 		}
 		return "New rule created";
 	}
-	
+
 	@CrossOrigin
 	@GetMapping(value = "/rule/getrules", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public List<DqRuleMOdel> getAllRules(HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -91,7 +93,7 @@ public class AuthController extends AbstractControllerUtil {
 		List<DqRuleMOdel> rules = dqPersistenceService.getRules();
 		return rules;
 	}
-	
+
 	@CrossOrigin
 	@PostMapping(value = "/rule/updaterule", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public DqRuleMOdel updateRule(@RequestBody DqRuleMOdel ruleRequestModel, HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -99,7 +101,7 @@ public class AuthController extends AbstractControllerUtil {
 		DqRuleMOdel rule = dqPersistenceService.updateRule(ruleRequestModel, sessionUser.getUserName());
 		return rule;
 	}
-	
+
 	@CrossOrigin
 	@PostMapping(value = "/rule/deleterule", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public DqRuleMOdel deleteRule(@RequestBody DqRuleMOdel ruleRequestModel, HttpServletRequest request, HttpServletResponse response) throws Exception{
@@ -107,6 +109,4 @@ public class AuthController extends AbstractControllerUtil {
 		dqPersistenceService.removeRule(ruleRequestModel);
 		return null;
 	}
-
-	
 }
