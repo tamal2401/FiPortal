@@ -7,13 +7,14 @@ import com.demo.loginportal.model.dqrule.RuleRequestModel;
 
 public interface IdqPersistanceService {
 
-	DqRuleMOdel storeData(DqRuleMOdel model, String createdBy);
+	DqRuleMOdel storeData(DqRuleMOdel model, String createdBy) throws Exception;
 	
-	DqRuleMOdel findData(Long id);
+	DqRuleMOdel findData(Long id) throws Exception;
 	
-	List<DqRuleMOdel> getRules();
+	List<DqRuleMOdel> getRules() throws Exception;
 
-	DqRuleMOdel updateRule(DqRuleMOdel ruleRequestModel, String updateBy);
+	DqRuleMOdel updateRule(DqRuleMOdel ruleRequestModel, String updateBy) throws Exception;
 
-	void removeRule(DqRuleMOdel ruleRequestModel);
+	void removeRule(DqRuleMOdel ruleRequestModel) throws Exception;
+
 }

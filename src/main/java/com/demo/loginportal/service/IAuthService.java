@@ -6,9 +6,10 @@ import com.demo.loginportal.model.session.SessionUserModel;
 
 public interface IAuthService {
 
-	public void storeSession(String sid, User currUser) throws InvalidSessionException;
+	public void scoreSession(String sid, User currUser) throws InvalidSessionException;
 	
 	public Long invalidateSession(String sid) throws InvalidSessionException;
 	
 	public SessionUserModel getSessionUser(String sid) throws InvalidSessionException;
+
 }

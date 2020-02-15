@@ -1,11 +1,5 @@
 package com.demo.loginportal.controller;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,16 +11,14 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.loginportal.controller.utils.PropertyUtils;
 import com.demo.loginportal.model.UserAuth;
 import com.demo.loginportal.model.auth.User;
-import com.demo.loginportal.model.dqrule.DqRuleMOdel;
-import com.demo.loginportal.model.dqrule.RuleRequestModel;
-import com.demo.loginportal.model.session.SessionUserModel;
 
 @RestController
+@RequestMapping(value="/authetication")
 public class AuthController extends AbstractControllerUtil {
 
 	private static final String JSESSION_KEY = "JSESSIONID";
@@ -34,21 +26,17 @@ public class AuthController extends AbstractControllerUtil {
 	private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
 	@CrossOrigin
-	@PostMapping(value = "/authentication/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public User userLogin(@RequestBody UserAuth modelAuth, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-
 		System.out.println("incoming resource :: " + modelAuth.toString());
 		User currUser = null;
-
 		// getting user from configuration
 		if (null != modelAuth.getUserId() && !StringUtils.containsWhitespace(modelAuth.getUserId())) {
-
 			currUser = getUser(modelAuth, currUser);
 			log.info("current user is :: " + getGson().toJson(currUser));
 			checkPwdAndPersistSession(modelAuth, response, currUser);
 		}
-
 		System.out.println(currUser);
 		return currUser;
 	}
@@ -66,47 +54,5 @@ public class AuthController extends AbstractControllerUtil {
 			return "No active session is present";
 		}
 		return "User is Logged Off";
-	}
-
-	@CrossOrigin
-	@PostMapping(value = "/rule/storerule", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public String persistDqRuleObject(@RequestBody RuleRequestModel ruleModel, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-
-		DqRuleMOdel dqRuleModel = new DqRuleMOdel();
-		SessionUserModel sessionUser = validateSsession(request, response);
-		if (PropertyUtils.isNotNull(ruleModel)) {
-			populateDqModel(ruleModel, dqRuleModel);
-		}
-		System.out.println(dqRuleModel);
-		dqRuleModel = dqPersistenceService.storeData(dqRuleModel, sessionUser.getUserName());
-		if(null==dqRuleModel.getRuleId()) {
-			throw new Exception("db error occured");
-		}
-		return "New rule created";
-	}
-
-	@CrossOrigin
-	@GetMapping(value = "/rule/getrules", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public List<DqRuleMOdel> getAllRules(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		SessionUserModel sessionUser = validateSsession(request, response);
-		List<DqRuleMOdel> rules = dqPersistenceService.getRules();
-		return rules;
-	}
-
-	@CrossOrigin
-	@PostMapping(value = "/rule/updaterule", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public DqRuleMOdel updateRule(@RequestBody DqRuleMOdel ruleRequestModel, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		SessionUserModel sessionUser = validateSsession(request, response);
-		DqRuleMOdel rule = dqPersistenceService.updateRule(ruleRequestModel, sessionUser.getUserName());
-		return rule;
-	}
-
-	@CrossOrigin
-	@PostMapping(value = "/rule/deleterule", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public DqRuleMOdel deleteRule(@RequestBody DqRuleMOdel ruleRequestModel, HttpServletRequest request, HttpServletResponse response) throws Exception{
-		SessionUserModel sessionUser = validateSsession(request, response);
-		dqPersistenceService.removeRule(ruleRequestModel);
-		return null;
 	}
 }

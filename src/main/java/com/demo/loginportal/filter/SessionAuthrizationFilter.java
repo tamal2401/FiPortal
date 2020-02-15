@@ -8,6 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 
 
 @WebFilter("/authentication/**")
@@ -17,7 +18,8 @@ public class SessionAuthrizationFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 
-		
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		String sid = httpRequest.getHeader("sid");
 	}
 
 }

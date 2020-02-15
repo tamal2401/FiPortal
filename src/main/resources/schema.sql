@@ -24,3 +24,15 @@ CREATE TABLE mdm_dqrule(
 	updated_by VARCHAR(50) NOT NULL,
 	last_updated TIMESTAMP NOT NULL
 );
+
+DROP TABLE IF EXISTS mdm_trustscoreconfig;
+
+CREATE TABLE mdm_trustscoreconfig(
+   rule_id serial PRIMARY KEY,
+   table_nm VARCHAR (50) NOT NULL,
+   attribute_nm_name VARCHAR (100) NOT NULL,
+   src_sys_cd VARCHAR (100) NOT NULL,
+   trust_score   VARCHAR (4) NOT NULL,
+   active_flag char(1),
+   created_on TIMESTAMP NOT NULL
+);

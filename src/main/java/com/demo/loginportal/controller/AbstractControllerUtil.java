@@ -22,28 +22,28 @@ import com.demo.loginportal.model.auth.UserAuthData;
 import com.demo.loginportal.model.dqrule.DqRuleMOdel;
 import com.demo.loginportal.model.dqrule.RuleRequestModel;
 import com.demo.loginportal.model.session.SessionUserModel;
-import com.demo.loginportal.service.DqDataPersistanceService;
 import com.demo.loginportal.service.IAuthService;
+import com.demo.loginportal.service.IdqPersistanceService;
 import com.google.gson.Gson;
 
 public class AbstractControllerUtil {
 
 	private static final Logger log = LoggerFactory.getLogger(AbstractControllerUtil.class);
-	
+
 	@Autowired
 	Gson gson;
-	
+
 	@Autowired
 	UserAuthData userAuthData;
-	
+
 	@Autowired
 	IAuthService authService;
-	
+
 	@Autowired
-	DqDataPersistanceService dqPersistenceService;
+	IdqPersistanceService dqPersistenceService;
 
 	protected void storeSession(String sid, User currUser) throws InvalidSessionException {
-		authService.storeSession(sid, currUser);
+		authService.scoreSession(sid, currUser);
 	}
 
 	protected String getSession() {
@@ -80,7 +80,7 @@ public class AbstractControllerUtil {
 		}
 		return currUser;
 	}
-	
+
 	protected void checkPwdAndPersistSession(UserAuth modelAuth, HttpServletResponse response,
 			User currUser) throws Exception {
 		String pwd = modelAuth.getPwd().trim();
@@ -94,24 +94,21 @@ public class AbstractControllerUtil {
 			throw new Exception("plase provide correct password");
 		}
 	}
-	
-	protected DqRuleMOdel populateDqModel(RuleRequestModel rModel, DqRuleMOdel model) {
+
+	protected void populateDqModel(RuleRequestModel rModel, DqRuleMOdel model) {
 		model.setObjName(rModel.getObjName())
-				.setEntityName(rModel.getEntityName())
-				.setHiveFilename(rModel.gethFilename())
-				.setRuleName(rModel.getrName())
-				.setTimeStamp(new Date());
+		.setEntityName(rModel.getEntityName())
+		.setHiveFilename(rModel.gethFilename())
+		.setRuleName(rModel.getrName())
+		.setTimeStamp(new Date());
 		if ("Yes".equalsIgnoreCase(rModel.getaFlag())) {
 			model.setActiveFlag(ActiveFlagEnum.Y);
 		} else {
 			model.setActiveFlag(ActiveFlagEnum.N);
 		}
-		return model;
 	}
 
 	protected SessionUserModel validateSsession(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		// todo SID validation
 		SessionUserModel activeUser = new SessionUserModel();
 		String sid = request.getHeader("sid");
 		if (null != sid && !StringUtils.containsWhitespace(sid)) {

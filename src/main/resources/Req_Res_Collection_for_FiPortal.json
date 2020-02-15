@@ -1,0 +1,437 @@
+{
+	"info": {
+		"_postman_id": "40e8b03f-9b18-427b-be2a-b58d047b7447",
+		"name": "FiPortal",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"userId\" : \"tamal\",\n\t\"pwd\" : \"abc123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/authetication/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"authetication",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/logout",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "sid",
+						"value": "22775b1d-0fa9-4651-b77a-802cc23e13ea",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/authetication/logout?",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"authetication",
+						"logout"
+					],
+					"query": [
+						{
+							"key": "sid",
+							"value": "22775b1d-0fa9-4651-b77a-802cc23e13ea",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/rule/storerule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "sid",
+						"type": "text",
+						"value": "54705ad4-b17a-4aeb-814b-09d5e95e6f20"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"objName\" : \"obj1\",\n\t\"entityName\" : \"entity1\",\n\t\"hFilename\" : \"hFilename1\",\n\t\"rName\" : \"rName1\",\n\t\"aFlag\" : \"No\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/rule/storerule",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"rule",
+						"storerule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/rule/getrules",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "sid",
+						"type": "text",
+						"value": "54705ad4-b17a-4aeb-814b-09d5e95e6f20"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/rule/getrules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"rule",
+						"getrules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/rule/updaterule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "sid",
+						"value": "54705ad4-b17a-4aeb-814b-09d5e95e6f20",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruleId\": 1,\r\n    \"objName\": \"obj2\",\r\n    \"entityName\": \"entity2\",\r\n    \"hiveFilename\": \"hFilename1\",\r\n    \"ruleName\": \"rName1\",\r\n    \"activeFlag\": \"N\",\r\n    \"createdBy\": \"Sucheta\",\r\n    \"timeStamp\": \"2020-02-12T06:09:26.809+0000\",\r\n    \"updatedBy\": \"\",\r\n    \"lastUpdated\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/rule/updaterule",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"rule",
+						"updaterule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/rule//deleterule",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "sid",
+						"value": "54705ad4-b17a-4aeb-814b-09d5e95e6f20",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruleId\": 1,\r\n    \"objName\": \"obj2\",\r\n    \"entityName\": \"entity2\",\r\n    \"hiveFilename\": \"hFilename1\",\r\n    \"ruleName\": \"rName1\",\r\n    \"activeFlag\": \"N\",\r\n    \"createdBy\": \"Sucheta\",\r\n    \"timeStamp\": \"2020-02-12T06:09:26.809+0000\",\r\n    \"updatedBy\": \"Sucheta\",\r\n    \"lastUpdated\": \"2020-02-12T06:14:53.232+0000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/rule/deleterule",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"rule",
+						"deleterule"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/trustscore/save",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "sid",
+						"value": "54705ad4-b17a-4aeb-814b-09d5e95e6f20",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"tableName\":\"table2\",\r\n \t\"attrName\":\"attr2\",\r\n\t\"srcSystem\":\"src1\",\r\n\t\"tStore\":\"t1\",\r\n\t\"aFlag\":\"Yes\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/trustscore/save?sid=ssaa",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"trustscore",
+						"save"
+					],
+					"query": [
+						{
+							"key": "sid",
+							"value": "ssaa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/trustscore/getstorerules",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "sid",
+						"value": "54705ad4-b17a-4aeb-814b-09d5e95e6f20",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/trustscore/getstorerules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"trustscore",
+						"getstorerules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/trustscore/updatestorerules",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "sid",
+						"value": "54705ad4-b17a-4aeb-814b-09d5e95e6f20",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"ruleId\": 1,\r\n        \"tableName\": \"table4\",\r\n        \"attributeName\": \"attr1\",\r\n        \"sourceSystem\": \"src1\",\r\n        \"trustscore\": \"t1\",\r\n        \"activeFlag\": \"Y\",\r\n        \"createdBy\": \"Sucheta\",\r\n        \"timeStamp\": \"2020-02-12T06:17:00.261+0000\",\r\n        \"updatedBy\": \"\",\r\n        \"lastUpdated\": null\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/trustscore/updatestorerules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"trustscore",
+						"updatestorerules"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/trustscore/deletestorerules",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "sid",
+						"value": "54705ad4-b17a-4aeb-814b-09d5e95e6f20",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ruleId\": 1,\r\n    \"tableName\": \"table4\",\r\n    \"attributeName\": \"attr1\",\r\n    \"sourceSystem\": \"src1\",\r\n    \"trustscore\": \"t1\",\r\n    \"activeFlag\": \"Y\",\r\n    \"createdBy\": \"Sucheta\",\r\n    \"timeStamp\": \"2020-02-12T06:17:00.261+0000\",\r\n    \"updatedBy\": \"Sucheta\",\r\n    \"lastUpdated\": \"2020-02-12T06:19:23.333+0000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8060/trustscore/deletestorerules",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8060",
+					"path": [
+						"trustscore",
+						"deletestorerules"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

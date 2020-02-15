@@ -19,7 +19,7 @@ public class AuthenticationService implements IAuthService{
 
 	@Override
 	@Transactional(rollbackOn = InvalidSessionException.class)
-	public void storeSession(String sid, User currUser) throws InvalidSessionException {
+	public void scoreSession(String sid, User currUser) throws InvalidSessionException {
 
 		SessionUserModel user = new SessionUserModel(sid, currUser);
 		System.out.println(user);
